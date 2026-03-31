@@ -33,7 +33,7 @@
     // ============================================
     const PRESETS = {
       '478': { inhale: 4, hold: 7, exhale: 8, wait: 0 },
-      'box': { inhale: 4, hold: 0, exhale: 4, wait: 0 },
+      'box': { inhale: 4, hold: 4, exhale: 4, wait: 4 },
     };
 
     // ============================================
