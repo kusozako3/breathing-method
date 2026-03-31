@@ -1,0 +1,435 @@
+﻿/* ============================================
+       リセット & 基本スタイル
+       ============================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      /* カラーパレット */
+      --bg-primary: #0a0e1a;
+      --bg-secondary: #111827;
+      --bg-card: rgba(17, 24, 39, 0.8);
+      --text-primary: #e2e8f0;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent-blue: #3b82f6;
+      --accent-blue-bright: #60a5fa;
+      --accent-blue-dim: #1e3a5f;
+      --accent-glow: rgba(59, 130, 246, 0.3);
+      --accent-green: #10b981;
+      --accent-red: #ef4444;
+      --border-color: rgba(148, 163, 184, 0.15);
+      --border-active: rgba(59, 130, 246, 0.5);
+
+      /* サイズ */
+      --circle-size: min(65vw, 280px);
+      --font-sm: 0.8rem;
+      --font-md: 0.95rem;
+      --font-lg: 1.2rem;
+      --font-xl: 1.6rem;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100dvh;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      overflow-y: auto;
+    }
+
+    /* ============================================
+       レイアウトコンテナ
+       ============================================ */
+    .app-container {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 20px 24px;
+      gap: 18px;
+      min-height: 100dvh;
+    }
+
+    /* ============================================
+       ヘッダー
+       ============================================ */
+    .app-header {
+      text-align: center;
+      width: 100%;
+    }
+
+    .app-header h1 {
+      font-size: var(--font-xl);
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent-blue-bright), #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 0.05em;
+    }
+
+    .app-header p {
+      font-size: var(--font-sm);
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* ============================================
+       呼吸法選択エリア
+       ============================================ */
+    .preset-selector {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .preset-btn {
+      flex: 1;
+      padding: 10px 8px;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-size: var(--font-sm);
+      font-family: inherit;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .preset-btn.active {
+      border-color: var(--accent-blue);
+      color: var(--accent-blue-bright);
+      background: rgba(59, 130, 246, 0.1);
+      box-shadow: 0 0 16px rgba(59, 130, 246, 0.15);
+    }
+
+    .preset-btn:hover {
+      border-color: var(--border-active);
+    }
+
+    /* ============================================
+       カスタム設定パネル
+       ============================================ */
+    .custom-panel {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      backdrop-filter: blur(8px);
+      display: none; /* JSで制御 */
+    }
+
+    .custom-panel.visible {
+      display: block;
+      animation: fadeSlideIn 0.3s ease;
+    }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .custom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .custom-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .custom-field label {
+      font-size: var(--font-sm);
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .custom-field input {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: var(--font-md);
+      font-family: inherit;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .custom-field input:focus {
+      border-color: var(--accent-blue);
+    }
+
+    /* ============================================
+       円アニメーションエリア
+       ============================================ */
+    .circle-area {
+      position: relative;
+      width: var(--circle-size);
+      height: var(--circle-size);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* 外側のリング（固定） */
+    .circle-outer {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 2px solid rgba(59, 130, 246, 0.2);
+      box-shadow: 0 0 40px rgba(59, 130, 246, 0.05);
+    }
+
+    /* 内側の塗り円（アニメーション対象） */
+    .circle-inner {
+      position: absolute;
+      width: 0%;
+      height: 0%;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent-blue-bright) 0%, var(--accent-blue) 60%, var(--accent-blue-dim) 100%);
+      transition: none;
+      opacity: 0;
+    }
+
+    /* グロー効果 */
+    .circle-glow {
+      position: absolute;
+      width: 110%;
+      height: 110%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .circle-glow.active {
+      opacity: 1;
+    }
+
+    /* テキスト表示 */
+    .circle-text {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .circle-text .phase-label {
+      font-size: clamp(1.2rem, 5vw, 1.6rem);
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+      letter-spacing: 0.08em;
+    }
+
+    .circle-text .timer-label {
+      font-size: var(--font-md);
+      color: rgba(255,255,255,0.7);
+      margin-top: 4px;
+      font-weight: 300;
+    }
+
+    /* アイドル状態のパルスアニメーション */
+    @keyframes idlePulse {
+      0%, 100% { transform: scale(1); opacity: 0.3; }
+      50%      { transform: scale(1.05); opacity: 0.5; }
+    }
+
+    .circle-outer.idle {
+      animation: idlePulse 3s ease-in-out infinite;
+    }
+
+    /* ============================================
+       サイクルカウンター
+       ============================================ */
+    .cycle-counter {
+      font-size: var(--font-sm);
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .cycle-counter span {
+      color: var(--accent-blue-bright);
+      font-weight: 700;
+      font-size: var(--font-md);
+    }
+
+    /* ============================================
+       コントロールボタン
+       ============================================ */
+    .controls {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .btn-main {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-start {
+      background: linear-gradient(135deg, var(--accent-blue), #6366f1);
+      color: #fff;
+      box-shadow: 0 4px 24px rgba(59, 130, 246, 0.4);
+    }
+
+    .btn-start:hover {
+      transform: scale(1.07);
+      box-shadow: 0 6px 32px rgba(59, 130, 246, 0.55);
+    }
+
+    .btn-start:active {
+      transform: scale(0.97);
+    }
+
+    .btn-stop {
+      background: linear-gradient(135deg, var(--accent-red), #dc2626);
+      color: #fff;
+      box-shadow: 0 4px 24px rgba(239, 68, 68, 0.35);
+    }
+
+    .btn-stop:hover {
+      transform: scale(1.07);
+    }
+
+    .btn-stop:active {
+      transform: scale(0.97);
+    }
+
+    /* ボタンアイコン（SVG） */
+    .btn-icon {
+      width: 28px;
+      height: 28px;
+      fill: currentColor;
+      pointer-events: none; /* スマホでのSVGタップによるイベント未発火を防止 */
+    }
+
+    /* ============================================
+       現在の設定表示
+       ============================================ */
+    .current-settings {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .setting-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: rgba(59, 130, 246, 0.08);
+      border: 1px solid rgba(59, 130, 246, 0.15);
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+    }
+
+    .setting-badge .badge-val {
+      color: var(--accent-blue-bright);
+      font-weight: 700;
+    }
+
+    /* ============================================
+       音声トグル
+       ============================================ */
+    .sound-toggle {
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s ease;
+    }
+
+    .sound-toggle:hover {
+      border-color: var(--border-active);
+      color: var(--accent-blue-bright);
+    }
+
+    .sound-toggle.muted {
+      color: var(--text-muted);
+    }
+
+    /* ============================================
+       レスポンシブ微調整
+       ============================================ */
+    @media (max-height: 640px) {
+      :root {
+        --circle-size: min(50vw, 220px);
+      }
+      .app-container {
+        gap: 10px;
+        padding: 10px 16px 16px;
+      }
+      .app-header h1 { font-size: 1.3rem; }
+    }
+
+    @media (min-width: 500px) {
+      :root {
+        --circle-size: 300px;
+      }
+    }
+
+    /* ============================================
+       スクロールバー非表示（モバイル向け）
+       ============================================ */
+    body::-webkit-scrollbar { display: none; }
+    body { -ms-overflow-style: none; scrollbar-width: none; }
